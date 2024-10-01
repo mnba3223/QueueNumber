@@ -1,0 +1,63 @@
+image: "ghcr.io/cirruslabs/flutter:3.22.2"
+
+stages:
+  - build_web
+  - build_apk
+  - deploy
+
+before_script:
+  # Enable Flutter Web support
+  - flutter config --enable-web
+  # Get dependencies
+  - flutter pub get
+
+build_web:
+  stage: build_web
+  script:
+    - flutter build web --release --dart-define-from-file=env/stage.json --no-tree-shake-icons # Build the Flutter Web application with no tree shake icons
+  artifacts:
+    paths:
+      - build/web
+
+build_apk:
+  stage: build_apk
+  script:
+    - |
+      # Build the Flutter APKs with no tree shake icons
+      flutter build apk --release --dart-define-from-file=env/stage.json 
+      flutter build apk --debug --dart-define-from-file=env/stage.json 
+      
+      # Get the modification dates of the APK files in GMT+8
+      RELEASE_APK_FILE=build/app/outputs/flutter-apk/app-release.apk
+      DEBUG_APK_FILE=build/app/outputs/flutter-apk/app-debug.apk
+
+      RELEASE_APK_MODIFIED_DATE=$(TZ=Asia/Shanghai date -r $RELEASE_APK_FILE '+%Y-%m-%d %H:%M:%S %Z')
+      DEBUG_APK_MODIFIED_DATE=$(TZ=Asia/Shanghai date -r $DEBUG_APK_FILE '+%Y-%m-%d %H:%M:%S %Z')
+
+      echo "Release APK modification date: $RELEASE_APK_MODIFIED_DATE"
+      echo "Debug APK modification date: $DEBUG_APK_MODIFIED_DATE"
+
+      mkdir -p build/app/outputs/flutter-apk/public
+      echo "<html><body><h1>Download APK</h1><p>Release APK modification date: $RELEASE_APK_MODIFIED_DATE</p><a href='app-release.apk'>Download Release APK here</a><br><p>Debug APK modification date: $DEBUG_APK_MODIFIED_DATE</p><a href='app-debug.apk'>Download Debug APK here</a></body></html>" > build/app/outputs/flutter-apk/public/download.html # Generate HTML file
+  artifacts:
+    paths:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/flutter-apk/public/download.html
+
+pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    # Copy the contents of the build/web directory to public
+    - cp -r build/web/* public
+    # Copy the APKs and HTML to the public directory
+    - cp build/app/outputs/flutter-apk/app-release.apk public/
+    - cp build/app/outputs/flutter-apk/app-debug.apk public/
+    - cp build/app/outputs/flutter-apk/public/download.html public/
+    # Copy index.html to 404.html
+    - cp public/index.html public/404.html
+  artifacts:
+    paths:
+      - public
+  only:
+    - main # Or your default branch

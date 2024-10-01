@@ -1,0 +1,60 @@
+{
+
+    // this is vscode lunch setting
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "qswait -DEV",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=env/dev.json"
+            ],
+            "flutterMode": "debug"
+        },
+
+        {
+            "name": "qswait -STG  - release mode ",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=env/stage.json"
+            ]
+            ,
+            "flutterMode": "release"
+        },
+        {
+            "name": "qswait -STG - debug mode ",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=env/stage.json"
+            ]
+            ,
+            "flutterMode": "debug"
+        },
+        {
+            "name": "qswait -PROD",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define-from-file=env/prod.json"
+            ]
+            ,
+            "flutterMode": "release"
+        },
+        // {
+        //     "name": "qswait (profile mode)",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "flutterMode": "profile"
+        // },
+        // {
+        //     "name": "qswait (release mode)",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "flutterMode": "release"
+        // }
+    ]
+}

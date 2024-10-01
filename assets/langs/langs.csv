@@ -1,0 +1,18 @@
+﻿key,en_US,zh_TW,ja-JP
+welcome,Welcome to Queue Management System,歡迎使用排隊管理系統,待ち行列管理システムへようこそ
+title,Title,標題,タイトル
+wait_people,Number of people waiting: {count},等待人數有 {count} 人,待っている人数: {count}人
+select_language,Please select your language:,請選擇您的語言:,言語を選択してください：
+customer_mode,Customer Mode,顧客模式,顧客モデル
+customer_number,person,名,名
+button_close,close,關閉,閉じる
+waiting,Waiting,等待中,待っている
+cancelled,Cancelled,取消,キャンセル
+seating,Seating,已入座,案内済み
+processing,Processing,處理中,處理中
+finished,Finished,已完成,已完成
+notcalled,Notcalled,未呼叫,未呼叫
+calling,Calling,呼叫中,呼叫中
+alreadycalled,Called,已呼叫,已呼叫
+allstatus,All,全部狀態,All
+allcategory,All,全部種類,All

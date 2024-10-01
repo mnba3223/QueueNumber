@@ -1,0 +1,9 @@
+{
+    "baseUrl": "",
+    "paths": {
+        "api/*": ""
+    }
+    ,
+    "apiKey":"somekey_for_stage",
+    "mode": "stage mode"
+}
